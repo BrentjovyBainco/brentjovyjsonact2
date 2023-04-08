@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta brand="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>KNIFES</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center mb-5">KNIFES</h2>
+        <div class="row" id="demo"></div>
+    </div>
+
+    <script>
+        var txt = "";
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.onload = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let knifes = JSON.parse(this.responseText);
+                console.log(knifes);
+                let txt = "";
+                let user = "";
+
+                for(i = 0; i < knifes.length;i++){
+                    txt += `
+                        <div class="col-md-6 mb-5">
+                            <div class="card card-height">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                        <img class="card-img img-fluid" src="img/sample/${knifes[i].img}" alt="">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h2 class="card-title mb-2">${knifes[i].name}</h2>
+                                           
+                                            <p class="card-text"><b>Description:</b> ${knifes[i].description}</p>
+                                            <p class="card-text"><b>Type of kinfe:</b> ${knifes[i].type}</p>
+                                            <p class="card-text"><b>Other Countries Users of this Knife:</b></p>         
+                                            <ul class="">`;
+                                                for(j = 0; j < knifes[i].countries.length; j++){
+                                                    txt += `
+                                                        <li class="">${knifes[i].countries[j]}</li>
+                                                    `;
+                                                }
+                                                txt += `
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                document.getElementById("demo").innerHTML = txt;
+            }
+        }
+        xmlhttp.open("GET", "http://brentjson.test/json.php");
+        xmlhttp.send();
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+</html>
